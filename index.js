@@ -1,5 +1,5 @@
 import { append_user, get_users } from "./app.js";
-import { IP } from "./config.js";
+import { IP, port } from "./config.js";
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
@@ -49,6 +49,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3000, IP, () => {
+server.listen(port, IP, () => {
   console.log("listening on *:3000");
 });

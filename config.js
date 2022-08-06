@@ -1,2 +1,2 @@
-export const IP = "192.168.1.34";
+export const IP = "localhost";
 export const port = process.env.port;

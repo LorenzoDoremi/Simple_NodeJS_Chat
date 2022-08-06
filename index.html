@@ -85,14 +85,14 @@
 
     <script type="module">
 
-        import {IP, port} from "./config.js"
+       
 
         function clear_text() {
             document.getElementById("input_message").value = "";
           
         }
         // connetto alla porta
-        var socket = io.connect('http://'+IP+':'+port);
+        var socket = io();
         
         // creo un id a "caso"
         var id = parseInt(Math.random() * 10000000);

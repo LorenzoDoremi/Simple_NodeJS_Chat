@@ -10,3 +10,12 @@ export function append_user(msg) {
 export function get_users() {
     return conn_users;
 }
+export function delete_user(socketid) {
+     conn_users.forEach((user) => {
+        
+        if(user.socket == socketid) {
+            conn_users.pop(user);
+          
+        }
+     })
+}

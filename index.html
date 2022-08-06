@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+ 
+
+
+    <script src="socket.js"></script>
+
+
+    <style>
+        * {
+            font-family: arial;
+            box-sizing: border-box;
+        }
+        #users_container {
+            position: fixed;
+            top: 50px;
+            right: 50px;
+            background: rgb(61, 120, 248);
+            color: white;
+            padding: 20px;
+            min-height: 100px;
+        }
+        ul li {
+            list-style-type: none;
+            border-bottom: 1px white solid;
+            padding: 10px;
+        }
+        form {
+            position: fixed;
+            bottom: 20px;
+            background: lightgray;
+            width: 100%;
+            padding: 10px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+           
+        }
+        form input {
+            height: 50px;
+        }
+        form input[type = "text"] {
+           width: 100%;
+        }
+        form input[type = "submit"] {
+            width: 100px;
+            background-color: rgb(61, 120, 248);
+            color: white;
+
+        }
+        form input[type = "submit"]:hover {
+            background: rgb(21, 55, 129);
+        } 
+        #chat li {
+            /*  background: rgb(61, 120, 248); */
+            color: white;
+            padding: 20px;
+            max-width: 700px;
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>ANON CHAT</h1>
+    <ul id="chat"></ul>
+    <div id="users_container"> Utenti Online:
+        <ul id="users"></ul>
+    </div>
+  <!--   <img src="foto.jpg" /> -->
+    <form id="my_form" action="">
+        <input id="input_message" type="text" onclick="clear_text()" value="inserisci messaggio" />
+        <input type="submit" value="INVIA" />
+    </form>
+    </form>
+
+
+
+    <script>
+
+        function clear_text() {
+            document.getElementById("input_message").value = "";
+          
+        }
+        // connetto alla porta
+        var socket = io.connect('http://192.168.1.34:3000/');
+        
+        // creo un id a "caso"
+        var id = parseInt(Math.random() * 10000000);
+        socket.emit('conn',id);
+
+
+        var form = document.getElementById("my_form");
+        var input_message = document.getElementById("input_message");
+        var chat = document.getElementById("chat");
+        // ascolto e blocco il form ed invio il messaggio
+        document.getElementById("my_form").addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (input_message.value) {
+                socket.emit('msg', [id, input_message.value]);
+                input_message.value = 'Nuovo messaggio...';
+            }
+        });
+
+
+        // ascolto cosa dice il server
+        socket.on('new message', function (msg) {
+            var item = document.createElement('li');
+            item.textContent = "user"+msg[0]+" says: "+msg[1];
+            
+            var r = parseInt(msg[0]%255);
+            var g = parseInt((msg[0]/2) % 255);
+            var b = parseInt((msg[0]*2)%255);
+            var back = "rgb("+r+", "+g+", "+b+")";
+            
+            item.style.background = back;
+            chat.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+
+
+         // ascolto cosa dice il server
+         socket.on('user', function (msg) {
+            var item = document.createElement('li');
+
+            item.textContent = msg;
+            document.getElementById("users").appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+
+    </script>
+</body>
+
+</html>

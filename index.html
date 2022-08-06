@@ -83,14 +83,16 @@
 
 
 
-    <script>
+    <script type="module">
+
+        import {IP} from "./config.js"
 
         function clear_text() {
             document.getElementById("input_message").value = "";
           
         }
         // connetto alla porta
-        var socket = io.connect('http://192.168.1.34:3000/');
+        var socket = io.connect('http://'+IP+':3000');
         
         // creo un id a "caso"
         var id = parseInt(Math.random() * 10000000);

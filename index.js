@@ -1,4 +1,5 @@
 import { append_user, get_users } from "./app.js";
+import { IP } from "./config.js";
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
@@ -17,7 +18,9 @@ const io = new Server(server);
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
-
+app.get("/config.js", (req, res) => {
+    res.sendFile(__dirname + "/config.js");
+  });
 app.get("/app.js", (req, res) => {
   res.sendFile(__dirname + "/app.js");
 });
@@ -46,6 +49,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3000, '192.168.1.34', () => {
+server.listen(3000, IP, () => {
   console.log("listening on *:3000");
 });

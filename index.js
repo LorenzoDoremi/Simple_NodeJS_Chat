@@ -37,6 +37,14 @@ app.get("/socket.js", (req, res) => {
   res.sendFile(__dirname + "/node_modules/socket.io/client-dist/socket.io.js");
 });
 
+
+
+var options = {
+  headers: {
+  mode: 'no-cors'
+  }
+}
+
 // tentativo comprensione CORS
 const getApiData = async () => {
   const response = await fetch(

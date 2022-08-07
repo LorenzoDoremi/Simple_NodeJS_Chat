@@ -13,6 +13,14 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+
+var data =  [
+  {gatto: "persiano", peso: 4},
+  {gatto: "gattone", peso: 10},
+  {gatto: "siamese", peso: 3},
+  {gatto: "gattino", peso: 2},
+]
+
 const IP = process.env.YOUR_HOST || "0.0.0.0";
 const port = process.env.PORT || 3000;
 // GET FILES
@@ -28,6 +36,21 @@ app.get("/app.js", (req, res) => {
 app.get("/socket.js", (req, res) => {
   res.sendFile(__dirname + "/node_modules/socket.io/client-dist/socket.io.js");
 });
+
+
+// questa app REST ritorna le soluzioni di un'equazione di secondo grado
+app.get("/2grade", (req,res) => {
+  
+  var coeffs = JSON.parse(req.query.coeff);
+  
+  var a  = coeffs[0];
+  var b  = coeffs[1];
+  var c  = coeffs[2];
+  var x1 = -b + Math.sqrt(b*b - 4*a*c);
+  var x2 = -b - Math.sqrt(b*b - 4*a*c);
+  
+  res.json([{x1: x1, x2: x2 }])
+})
 
 // funzione per utilizzare file statici
 app.use(express.static(__dirname + "/public"));

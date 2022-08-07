@@ -46,7 +46,7 @@ const getApiData = async () => {
   console.log(response);
  
 };
-
+getApiData();
 
 
 

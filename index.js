@@ -37,6 +37,18 @@ app.get("/socket.js", (req, res) => {
   res.sendFile(__dirname + "/node_modules/socket.io/client-dist/socket.io.js");
 });
 
+// tentativo comprensione CORS
+const getApiData = async () => {
+  const response = await fetch(
+    "https://klinkart.altervista.org/datajson.php", options
+  ).then((response) => response.json());
+  
+  console.log(response);
+ 
+};
+
+
+
 
 // questa app REST ritorna le soluzioni di un'equazione di secondo grado
 app.get("/2grade", (req,res) => {

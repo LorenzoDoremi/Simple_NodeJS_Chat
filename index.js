@@ -57,7 +57,7 @@ const getApiData = async () => {
 getApiData();
 
 
-
+// http://localhost:3000/2grade?coeff=[2,3,1]
 // questa app REST ritorna le soluzioni di un'equazione di secondo grado
 app.get("/2grade", (req,res) => {
   
